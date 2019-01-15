@@ -1,0 +1,22 @@
+<h5 class="text-center">Bangalore Flights</h5>
+<table class="table">
+  <thead class="thead">
+    <tr>
+      <th>Flight</th>
+      <th>Destination</th>
+      <th>Scheduled</th>
+      <th>Gate</th>
+      <th>Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let fli of blrflightStatus">
+      <td>{{fli.airline.name}}&nbsp;{{fli.airline.iataCode}}</td>
+      <td>{{fli.arrival.iataCode}}</td>
+      <td>{{fli.arrival.scheduledTime | date:'h:mm a'}} </td>
+      <td>{{fli.departure.gate}}</td>
+      <td>{{fli.status}}</td>
+    </tr>
+
+  </tbody>
+</table>
