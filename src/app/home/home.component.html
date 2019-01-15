@@ -4,102 +4,18 @@
   <div class="counter">Next Refresh Time : &nbsp;<span id="time" class="text-default fa-alph" style="font-family: 'Orbitron', sans-serif;">00:00</span></div>
   <div class="row">
     <div class="col-md-6 ">
-      <h5 class="text-center">Bangalore Flights</h5>
-      <table class="table">
-        <thead class="thead">
-          <tr>
-            <th>Flight</th>
-            <th>Destination</th>
-            <th>Scheduled</th>
-            <th>Gate</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let fli of blrflightStatus">
-            <td>{{fli.airline.name}}&nbsp;{{fli.airline.iataCode}}</td>
-            <td>{{fli.arrival.iataCode}}</td>
-            <td>{{fli.arrival.scheduledTime | date:'h:mm a'}} </td>
-            <td>{{fli.departure.gate}}</td>
-            <td>{{fli.status}}</td>
-          </tr>
-
-        </tbody>
-      </table>
+    <app-metro-city-bangalore></app-metro-city-bangalore>
     </div>
     <div class="col-md-6 ">
-      <h5 class="text-center">Delhi Flights</h5>
-      <table class="table">
-          <thead class="thead">
-          <tr>
-            <th>Flight</th>
-            <th>Destination</th>
-            <th>Scheduled</th>
-            <th>Gate</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let fli of delFlightStatus">
-            <td>{{fli.airline.name}}&nbsp;{{fli.airline.iataCode}}</td>
-            <td>{{fli.arrival.iataCode}}</td>
-            <td>{{fli.arrival.scheduledTime | date:'h:mm a'}} </td>
-            <td>{{fli.departure.gate}}</td>
-            <td>{{fli.status}}</td>
-          </tr>
-
-        </tbody>
-      </table>
+      <app-metro-city-delhi></app-metro-city-delhi>
     </div>
   </div>
   <div class="row">
     <div class="col-md-6 ">
-      <h5 class="text-center">Mumbai Flights</h5>
-      <table class="table">
-          <thead class="thead">
-          <tr>
-            <th>Flight</th>
-            <th>Destination</th>
-            <th>Scheduled</th>
-            <th>Gate</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let fli of MumFlightStatus">
-            <td>{{fli.airline.name}}&nbsp;{{fli.airline.iataCode}}</td>
-            <td>{{fli.arrival.iataCode}}</td>
-            <td>{{fli.arrival.scheduledTime | date:'h:mm a'}} </td>
-            <td>{{fli.departure.gate}}</td>
-            <td>{{fli.status}}</td>
-          </tr>
-
-        </tbody>
-      </table>
+      <app-metro-city-mumbai></app-metro-city-mumbai>
     </div>
     <div class="col-md-6 ">
-      <h5 class="text-center">Kolkata Flights</h5>
-      <table class="table">
-          <thead class="thead">
-          <tr>
-            <th>Flight</th>
-            <th>Destination</th>
-            <th>Scheduled</th>
-            <th>Gate</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let fli of kolFlightStatus">
-            <td>{{fli.airline.name}}&nbsp;{{fli.airline.iataCode}}</td>
-            <td>{{fli.arrival.iataCode}}</td>
-            <td>{{fli.arrival.scheduledTime | date:'h:mm a'}} </td>
-            <td>{{fli.departure.gate}}</td>
-            <td>{{fli.status}}</td>
-          </tr>
-
-        </tbody>
-      </table>
+      <app-metro-city-kolkata></app-metro-city-kolkata>
     </div>
   </div>
 </div>
