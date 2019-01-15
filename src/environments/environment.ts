@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-   BASE_URL: 'http://aviation-edge.com/v2/public/timetable?key=cbc69c-7cc969'
+   BASE_URL: 'http://aviation-edge.com/v2/public/timetable?key=XXXXX'
 };
 
 /*
