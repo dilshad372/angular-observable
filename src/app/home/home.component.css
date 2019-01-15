@@ -1,0 +1,25 @@
+.thead {
+    background: #dd4759;
+    color:#fff;
+    border: 1px solid #dd4759;
+}
+.table {
+    border: 1px solid #dee2e6;
+}
+.counter {
+    /* background: grey; */
+    color: grey;
+    display: inline-block;
+    border-radius: 10px;
+    height: 32px;
+    padding-top: 4px;
+    padding-left: 4px;
+}
+
+.img-align {
+    width: 190px;
+    margin-top: 20px;
+}
+h5 {
+    font-family: 'Orbitron', sans-serif;
+}
