@@ -10,7 +10,7 @@
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let fli of blrflightStatus">
+    <tr *ngFor="let fli of blrflightStat">
       <td>{{fli.airline.name}}&nbsp;{{fli.airline.iataCode}}</td>
       <td>{{fli.arrival.iataCode}}</td>
       <td>{{fli.arrival.scheduledTime | date:'h:mm a'}} </td>

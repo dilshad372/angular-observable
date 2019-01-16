@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HomeService } from '../home.service';
 import { Subscription, interval } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-metro-city-delhi',
@@ -11,37 +12,34 @@ import { startWith, switchMap } from 'rxjs/operators';
 export class MetroCityDelhiComponent implements OnInit, OnDestroy {
 
   delFlightStatus = [];
-  private subscription: Subscription;
-  constructor(private homeService: HomeService) { }
+  private delhiSubscription: Subscription;
+  constructor(private homeService: HomeService, private appComp: AppComponent) { }
 
   ngOnInit() {
-    this.getDelhiflightStatus();
+    this.getDelhiFlightStat();
   }
 
-  // get Delhi flight status
-  getDelhiflightStatus() {
-    this.subscription = interval(60000)  // set interval for 60 sec
-      .pipe(
-        startWith(0),
-        switchMap(() => this.homeService.getAllDelhiDepFl())).subscribe(
-          res => {
-            this.delFlightStatus = [];
-            console.log("del : : ", res);
-            for (var i = res.length - 30; i > res.length - 34; i--) {
-              this.delFlightStatus.push(res[i]);
-            }
-          },
-          err => {
-            alert(err.name);
-          },
-          () => {
-            // Do stuff after completion
-          })
+  getDelhiFlightStat() {
+    this.delhiSubscription = this.appComp.delhiFlightSubject.subscribe(
+      (data) => {
+        console.log("subs data", data)
+        this.getDelhiFlightUpdates(data);
+      },
+      (err) => console.log(err),
+      () => console.log('Completed')
+    );
+  }
+
+  getDelhiFlightUpdates(data) {
+    this.delFlightStatus = [];
+    data.forEach(element => {
+      this.delFlightStatus.push(element)
+    });
   }
 
   ngOnDestroy() {
     console.log("unsubscribe")
-    this.subscription.unsubscribe();
+    this.delhiSubscription.unsubscribe();
   }
 
 }
