@@ -1,7 +1,8 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HomeService } from '../home.service';
-import { Subscription, interval } from 'rxjs';
-import { startWith, switchMap } from 'rxjs/operators';
+import { Subscription, interval, Subject, BehaviorSubject } from 'rxjs';
+import { startWith, switchMap, distinctUntilChanged, tap } from 'rxjs/operators';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-metro-city-bangalore',
@@ -10,38 +11,36 @@ import { startWith, switchMap } from 'rxjs/operators';
 })
 export class MetroCityBangaloreComponent implements OnInit, OnDestroy {
 
-  blrflightStatus = [];
-  private subscription: Subscription;
-  constructor(private homeService: HomeService) { }
+  blrflightStat = [];
+  private bangSubscription : Subscription;
+
+  constructor(private homeService: HomeService,private appComp: AppComponent) { }
 
   ngOnInit() {
-    this.getBangaloreflightStatus();
+
+    this.getBangloreFlightStat();
   }
 
-  // get Bangalore flight status 
-  getBangaloreflightStatus() {
-    this.subscription = interval(60000)   // set interval for 60 sec
-      .pipe(
-        startWith(0),
-        switchMap(() => this.homeService.getAllBangloreDepFl())).subscribe(
-          res => {
-            this.blrflightStatus = [];
-            console.log("blr : : ", res.length - 1, res.length - 5);
-            for (var i = res.length - 30; i > res.length - 34; i--) {
-              this.blrflightStatus.push(res[i]);
-            }
-          },
-          err => {
-            alert(err.name);
-          },
-          () => {
-            // Do stuff after completion
-          })
-  }
+  getBangloreFlightStat() {
+  this.bangSubscription = this.appComp.bangloreFlightSubject.subscribe(
+    (data) => {console.log("subs data", data)
+    this.getBangaloreFlightUpdates(data);
+  },
+    (err) => console.log(this.appComp.bangloreFlightSubject.error(err)),
+    () => console.log(this.appComp.bangloreFlightSubject.complete())
+  );
+}
+
+getBangaloreFlightUpdates(data){
+this.blrflightStat = [];
+data.forEach(element => {
+  this.blrflightStat.push(element)
+});
+}
 
   ngOnDestroy() {
     console.log("unsubscribe")
-    this.subscription.unsubscribe();
+    this.bangSubscription.unsubscribe();
   }
 
 }

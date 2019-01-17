@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HomeService } from '../home.service';
 import { Subscription, interval } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-metro-city-kolkata',
@@ -11,37 +12,34 @@ import { startWith, switchMap } from 'rxjs/operators';
 export class MetroCityKolkataComponent implements OnInit, OnDestroy {
 
   kolFlightStatus = [];
-  private subscription: Subscription;
-  constructor(private homeService: HomeService) { }
+  private kolkatFlightSubscription: Subscription;
+  constructor(private homeService: HomeService, private appComp: AppComponent) { }
 
   ngOnInit() {
-    this.getKolkataflightStatus();
+    this.getKolkataFlightStat();
   }
 
-  // get Kolkata flight status
-  getKolkataflightStatus() {
-    this.subscription = interval(60000)  // set interval for 60 sec
-      .pipe(
-        startWith(0),
-        switchMap(() => this.homeService.getAllKolkataDepFl()))
-      .subscribe(
-        res => {
-          this.kolFlightStatus = [];
-          console.log("kol : : ", res);
-          for (var i = res.length - 30; i > res.length - 34; i--) {
-            this.kolFlightStatus.push(res[i]);
-          }
-        },
-        err => {
-          alert(err.name);
-        },
-        () => {
-          // Do stuff after completion
-        })
+
+  getKolkataFlightStat() {
+    this.kolkatFlightSubscription = this.appComp.kolkataFlightSubject.subscribe(
+      (data) => {
+        console.log("subs data", data)
+        this.getKolkataFlightUpdates(data);
+      },
+      (err) => console.log(err),
+      () => console.log('Completed')
+    );
+  }
+
+  getKolkataFlightUpdates(data) {
+    this.kolFlightStatus = [];
+    data.forEach(element => {
+      this.kolFlightStatus.push(element)
+    });
   }
 
   ngOnDestroy() {
     console.log("unsubscribe")
-    this.subscription.unsubscribe();
+    this.kolkatFlightSubscription.unsubscribe();
   }
 }

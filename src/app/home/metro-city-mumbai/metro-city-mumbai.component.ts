@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HomeService } from '../home.service';
 import { Subscription, interval } from 'rxjs';
 import { startWith, switchMap } from 'rxjs/operators';
+import { AppComponent } from '../../app.component';
 
 @Component({
   selector: 'app-metro-city-mumbai',
@@ -11,37 +12,34 @@ import { startWith, switchMap } from 'rxjs/operators';
 export class MetroCityMumbaiComponent implements OnInit, OnDestroy {
 
   mumFlightStatus = [];
-  private subscription: Subscription;
-  constructor(private homeService: HomeService) { }
+  private mumFlightSubscription: Subscription;
+  constructor(private homeService: HomeService, private appComp: AppComponent) { }
 
   ngOnInit() {
-    this.getMumbaiflightStatus();
+    this.getMumbaiFlightStat();
   }
 
 
-  // get Mumbai flight status
-  getMumbaiflightStatus() {
-    this.subscription = interval(60000)  // set interval for 60 sec
-      .pipe(
-        startWith(0),
-        switchMap(() => this.homeService.getAllMumbaiDepFl())).subscribe(
-          res => {
-            this.mumFlightStatus = [];
-            console.log("mum : : ", res);
-            for (var i = res.length - 30; i > res.length - 34; i--) {
-              this.mumFlightStatus.push(res[i]);
-            }
-          },
-          err => {
-            alert(err.name);
-          },
-          () => {
-            // Do stuff after completion
-          })
+  getMumbaiFlightStat() {
+    this.mumFlightSubscription = this.appComp.mumbaiFlightSubject.subscribe(
+      (data) => {
+        console.log("subs data", data)
+        this.getMumbaiFlightUpdates(data);
+      },
+      (err) => console.log(err),
+      () => console.log('Completed')
+    );
+  }
+
+  getMumbaiFlightUpdates(data) {
+    this.mumFlightStatus = [];
+    data.forEach(element => {
+      this.mumFlightStatus.push(element)
+    });
   }
 
   ngOnDestroy() {
     console.log("unsubscribe")
-    this.subscription.unsubscribe();
+    this.mumFlightSubscription.unsubscribe();
   }
 }
