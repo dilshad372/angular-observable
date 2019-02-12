@@ -115,8 +115,8 @@ export class AppComponent implements OnInit, OnDestroy {
           next => {
             this.getKolUpdates(next)
           },
-          err => this.mumbaiFlightSubject.error(err),
-          () => this.mumbaiFlightSubject.complete()
+          err => this.kolkataFlightSubject.error(err),
+          () => this.kolkataFlightSubject.complete()
 
         )
   }
